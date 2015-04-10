@@ -1,11 +1,6 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
-    <f:entry>
-        <h3>it: ${it}</h3>
-        <h3>from: ${from}</h3>
-        <h3>instance: ${instance}</h3>
-        <h3>descriptor: ${descriptor}</h3>
-    </f:entry>
-    <f:entry title="Hostname:: ${instance.getHost()}" field="host">
+
+    <f:entry title="Hostname" field="host">
         <f:textbox/>
     </f:entry>
 
@@ -28,5 +23,10 @@
     <f:entry field="collection" title="Collection">
         <f:textbox/>
     </f:entry>
+
+    <f:validateButton title="Test connection" progress="${%Connecting...}"
+        method="testConnection" with="host,port,username,password,database,collection"
+    />
+    
 
 </j:jelly>

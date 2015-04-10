@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jenkinsci.plugins.nosqldb;
+package org.jenkinsci.plugins.externaldata;
 
 import java.io.IOException;
 
@@ -11,8 +11,13 @@ import java.io.IOException;
  *
  * @author Mads
  */
-public class NoSQLDataException extends IOException {
-    public NoSQLDataException(String message, Throwable cause) {
+public class ExternalDataException extends IOException {
+    
+    public ExternalDataException(String message) {
+        super(message);
+    }
+    
+    public ExternalDataException(String message, Throwable cause) {
         super(message, cause);
     }
 }
