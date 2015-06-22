@@ -21,9 +21,9 @@
     </developers>  
     
     <scm>
-        <connection>scm:git:ssh://github.com/Praqma/external-data-plugin.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com:Praqma/external-data-plugin.git</developerConnection>
-        <url>https://github.com/Praqma/external-data-plugin</url>
+        <connection>scm:git:ssh://github.com/Praqma/compatibility-action-storage-plugin.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:Praqma/compatibility-action-storage-plugin.git</developerConnection>
+        <url>https://github.com/Praqma/compatibility-action-storage-plugin</url>
     </scm>
 
     <!-- get every artifact through repo.jenkins-ci.org, which proxies all the artifacts that we need -->
