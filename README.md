@@ -1,5 +1,5 @@
-# External Data Plugin
-The purpose of this plugin is to provide an integration for an alternative database from which plugins can extract extra data.
+#Compatability Action Storage Plugin
+The purpose of this plugin is to provide a way to store metadata about the given compatability of an abstract configuration. Currently using MongoDB.
 
 ##Usage
 The current implementation can be used this way, we only include the MongoDB connector `GlobalConfiguration.all().get(NoSQLDatabasePlugin.class).getProvider()`
