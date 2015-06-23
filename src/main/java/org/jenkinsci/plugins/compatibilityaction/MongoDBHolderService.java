@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jenkinsci.plugins.externaldata;
+package org.jenkinsci.plugins.compatibilityaction;
 
 import com.mongodb.DB;
 import com.mongodb.DBObject;
@@ -48,17 +48,17 @@ public class MongoDBHolderService implements Serializable {
         }
     }
     
-    public String testConnection(String collection) throws ExternalDataException {
+    public String testConnection(String collection) throws CompatibilityDataException {
         try {
             StringBuilder builder = new StringBuilder();
             DB db = createClient().getDB(database);
             Set<String> collections = db.getCollectionNames();
             if(collections.isEmpty()) {
-                throw new ExternalDataException("No collections found in database");
+                throw new CompatibilityDataException("No collections found in database");
             }
             
             if(!collections.contains(collection)) {
-                throw new ExternalDataException("The specified collection was not found in the database");
+                throw new CompatibilityDataException("The specified collection was not found in the database");
             }
             
             DBObject cur = db.getCollection(collection).findOne();           
@@ -66,7 +66,7 @@ public class MongoDBHolderService implements Serializable {
              
             return builder.toString();            
         } catch (UnknownHostException ex) {
-            throw new ExternalDataException("Unable to list collections in database. Check your connection settings", ex);
+            throw new CompatibilityDataException("Unable to list collections in database. Check your connection settings", ex);
         }
     }
 

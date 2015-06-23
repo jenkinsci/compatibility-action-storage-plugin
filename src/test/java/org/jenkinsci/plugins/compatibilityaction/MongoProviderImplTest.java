@@ -1,4 +1,4 @@
-package org.jenkinsci.plugins.externaldata;
+package org.jenkinsci.plugins.compatibilityaction;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -6,6 +6,8 @@ package org.jenkinsci.plugins.externaldata;
  * and open the template in the editor.
  */
 
+import org.jenkinsci.plugins.compatibilityaction.CompatibilityDataException;
+import org.jenkinsci.plugins.compatibilityaction.MongoProviderImpl;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -94,7 +96,7 @@ public class MongoProviderImplTest {
         assertTrue(allData.contains(data2));
     }
     
-    @Test(expected = ExternalDataException.class)
+    @Test(expected = CompatibilityDataException.class)
     @SkipSetup
     public void testConnectionFail() throws Exception {
         MongoProviderImpl testCollection = new MongoProviderImpl(HOST, PORT, DBNAME, COLLECTION, null, null);

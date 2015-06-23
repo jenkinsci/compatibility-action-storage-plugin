@@ -1,4 +1,4 @@
-package org.jenkinsci.plugins.externaldata;
+package org.jenkinsci.plugins.compatibilityaction;
 
 import hudson.Extension;
 import hudson.ExtensionList;
@@ -12,7 +12,7 @@ import org.kohsuke.stapler.StaplerRequest;
  * <p>
  * When the user configures the project and enables this builder,
  * {@link DescriptorImpl#newInstance(StaplerRequest)} is invoked
- * and a new {@link ExternalDataPlugin} is created. The created
+ * and a new {@link CompatibilityDataPlugin} is created. The created
  * instance is persisted to the project configuration XML by using
  * XStream, so this allows you to use instance fields (like {@link #name})
  * to remember the configuration.
@@ -24,12 +24,12 @@ import org.kohsuke.stapler.StaplerRequest;
  * @author Kohsuke Kawaguchi
  */
 @Extension
-public class ExternalDataPlugin extends GlobalConfiguration {
+public class CompatibilityDataPlugin extends GlobalConfiguration {
 
-    private ExternalDataProvider provider;
-    public static final String LOG_PREFIX = "[NOSQL]";
+    private CompatibilityDataProvider provider;
+    public static final String LOG_PREFIX = "[COMPATIBILITY]";
     
-    public ExternalDataPlugin() {
+    public CompatibilityDataPlugin() {
         load();
     }
 
@@ -40,20 +40,20 @@ public class ExternalDataPlugin extends GlobalConfiguration {
         return true;
     }
    
-    public ExternalDataProvider getProvider() {
+    public CompatibilityDataProvider getProvider() {
         return provider;
     }
     
-    public <T extends ExternalDataProvider> T getProvider(Class<T> t) {
+    public <T extends CompatibilityDataProvider> T getProvider(Class<T> t) {
         return t.cast(provider);
     } 
 
-    public void setProvider(ExternalDataProvider provider) {
+    public void setProvider(CompatibilityDataProvider provider) {
         this.provider = provider;
     }
 
-    public ExtensionList<ExternalDataProvider.NoSQLDescriptor> getAllProviders() {
-        return ExternalDataProvider.NoSQLDescriptor.all();
+    public ExtensionList<CompatibilityDataProvider.CompatabilityDataProviderDescriptor> getAllProviders() {
+        return CompatibilityDataProvider.CompatabilityDataProviderDescriptor.all();
     }
 }
 

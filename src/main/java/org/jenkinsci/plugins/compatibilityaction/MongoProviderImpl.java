@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jenkinsci.plugins.externaldata;
+package org.jenkinsci.plugins.compatibilityaction;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -28,7 +28,7 @@ import org.mongojack.JacksonDBCollection;
  *
  * @author Mads
  */
-public class MongoProviderImpl extends ExternalDataProvider {
+public class MongoProviderImpl extends CompatibilityDataProvider {
     
     private String database,collection,username;
     private String host = "localhost";
@@ -53,7 +53,7 @@ public class MongoProviderImpl extends ExternalDataProvider {
     
     public MongoProviderImpl() { }        
    
-    public Descriptor<ExternalDataProvider> getDescriptor() {
+    public Descriptor<CompatibilityDataProvider> getDescriptor() {
         return Jenkins.getInstance().getDescriptorOrDie(MongoProviderImpl.class);
     }
 
@@ -153,7 +153,7 @@ public class MongoProviderImpl extends ExternalDataProvider {
     }
 
     @Override
-    public <T> T create(T t) throws ExternalDataException {
+    public <T> T create(T t) throws CompatibilityDataException {
         MongoClient client = null;
         try {
             client = getService().createClient();
@@ -161,7 +161,7 @@ public class MongoProviderImpl extends ExternalDataProvider {
             return (T)coll.insert(t).getSavedObject();
 
         } catch (Exception ex) {
-            throw new ExternalDataException(String.format("Failed to insert object %s", t), ex);
+            throw new CompatibilityDataException(String.format("Failed to insert object %s", t), ex);
         } finally {
             if(client != null) {
                 client.close();
@@ -178,10 +178,10 @@ public class MongoProviderImpl extends ExternalDataProvider {
      * @param t
      * @param listener
      * @return
-     * @throws ExternalDataException 
+     * @throws CompatibilityDataException 
      */
     @Override
-    public <T> T create(T t, TaskListener listener) throws ExternalDataException {
+    public <T> T create(T t, TaskListener listener) throws CompatibilityDataException {
         MongoClient client = null;
         try {
             DB db = getService().createClient().getDB(database);
@@ -192,11 +192,11 @@ public class MongoProviderImpl extends ExternalDataProvider {
             }
             
             JacksonDBCollection coll = JacksonDBCollection.wrap(db.getCollection(collection), t.getClass());
-            listener.getLogger().println(String.format("%s Collection initialized.", ExternalDataPlugin.LOG_PREFIX));
+            listener.getLogger().println(String.format("%s Collection initialized.", CompatibilityDataPlugin.LOG_PREFIX));
             T myobj = (T)coll.insert(t).getSavedObject();            
             return myobj;
         } catch (Exception ex) {
-            throw new ExternalDataException(String.format("Failed to insert object %s", t), ex);
+            throw new CompatibilityDataException(String.format("Failed to insert object %s", t), ex);
         } finally {
             if(client != null) {
                 client.close();
@@ -208,14 +208,14 @@ public class MongoProviderImpl extends ExternalDataProvider {
     
     
     @Override
-    public <T> T read(Object key, Class<T> clazz) throws ExternalDataException {
+    public <T> T read(Object key, Class<T> clazz) throws CompatibilityDataException {
         MongoClient client = null;
         try {
             client = getService().createClient();
             JacksonDBCollection coll = JacksonDBCollection.wrap(client.getDB(database).getCollection(collection), clazz);
             return (T)coll.findOneById(key);
         } catch (Exception ex) {
-            throw new ExternalDataException(String.format("Failed to fetch object with key %s", key ), ex);
+            throw new CompatibilityDataException(String.format("Failed to fetch object with key %s", key ), ex);
         } finally {
             if(client != null) {
                 client.close();
@@ -223,7 +223,7 @@ public class MongoProviderImpl extends ExternalDataProvider {
         } 
     }
     
-    public <T> List<T> readMany(BasicDBObject query, Class<T> clazz) throws ExternalDataException {
+    public <T> List<T> readMany(BasicDBObject query, Class<T> clazz) throws CompatibilityDataException {
         List<T> list = new ArrayList<T>();
         org.mongojack.DBCursor cursor = null;
         MongoClient client = null;
@@ -235,7 +235,7 @@ public class MongoProviderImpl extends ExternalDataProvider {
                  list.add((T)cursor.next());
             }            
         } catch (Exception ex) {
-            throw new ExternalDataException(String.format("Failed to fetch object with query %s", query ), ex);
+            throw new CompatibilityDataException(String.format("Failed to fetch object with query %s", query ), ex);
         } finally {
             if(cursor != null) {
                 cursor.close();
@@ -247,19 +247,19 @@ public class MongoProviderImpl extends ExternalDataProvider {
         return list;
     }
     
-    public int count(DBObject query) throws ExternalDataException {  
+    public int count(DBObject query) throws CompatibilityDataException {  
         MongoClient client = null;
         try {
             client =  getService().createClient();
             return client.getDB(database).getCollection(collection).find(query).sort(new BasicDBObject("registrationDate", 1)).size();
         } catch (Exception ex) {
-            throw new ExternalDataException(String.format("(Unknown Host) Failed to fetch object with query %s", query ), ex);
+            throw new CompatibilityDataException(String.format("(Unknown Host) Failed to fetch object with query %s", query ), ex);
         } finally {
             if(client != null) client.close();            
         }
     }
     
-    public List<DBObject> listAndSort(DBObject query, BasicDBObject sorter) throws ExternalDataException {
+    public List<DBObject> listAndSort(DBObject query, BasicDBObject sorter) throws CompatibilityDataException {
         List<DBObject> objects = new ArrayList<DBObject>();
         
         DBCursor cursor = null;
@@ -271,7 +271,7 @@ public class MongoProviderImpl extends ExternalDataProvider {
                 objects.add(cursor.next());
             }
         } catch (Exception ex) {
-            throw new ExternalDataException(String.format("(Unknown Host) Failed to fetch object with query %s", query ), ex);
+            throw new CompatibilityDataException(String.format("(Unknown Host) Failed to fetch object with query %s", query ), ex);
         } finally {
             if(cursor != null) {
                 cursor.close();
@@ -284,7 +284,7 @@ public class MongoProviderImpl extends ExternalDataProvider {
     }
         
     @Extension
-    public static final class MongoProviderDescriptor extends NoSQLDescriptor {
+    public static final class MongoProviderDescriptor extends CompatabilityDataProviderDescriptor {
        
         public MongoProviderDescriptor() {
             load();
@@ -299,7 +299,7 @@ public class MongoProviderImpl extends ExternalDataProvider {
             String res = "";
             try {
                 res = new MongoDBHolderService(username, password, port, host, database).testConnection(collection);
-            } catch (ExternalDataException ex) {
+            } catch (CompatibilityDataException ex) {
                 return FormValidation.error(ex.getMessage());
             } catch (Exception unknown) {
                 return FormValidation.error(unknown.getMessage());

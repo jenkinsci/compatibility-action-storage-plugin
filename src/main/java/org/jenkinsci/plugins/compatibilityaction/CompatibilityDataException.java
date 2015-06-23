@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jenkinsci.plugins.externaldata;
+package org.jenkinsci.plugins.compatibilityaction;
 
 import java.io.IOException;
 
@@ -11,13 +11,13 @@ import java.io.IOException;
  *
  * @author Mads
  */
-public class ExternalDataException extends IOException {
+public class CompatibilityDataException extends IOException {
     
-    public ExternalDataException(String message) {
+    public CompatibilityDataException(String message) {
         super(message);
     }
     
-    public ExternalDataException(String message, Throwable cause) {
+    public CompatibilityDataException(String message, Throwable cause) {
         super(message, cause);
     }
 }
