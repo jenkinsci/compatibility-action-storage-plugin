@@ -1,4 +1,4 @@
-#Compatability Action Storage Plugin
+#Compatibility Action Storage Plugin
 The purpose of this plugin is to provide a way to store metadata about the given compatability of an abstract configuration. Currently using MongoDB.
 
 ##Usage
