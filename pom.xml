@@ -22,7 +22,7 @@
     
     <scm>
         <connection>scm:git:ssh://github.com/Praqma/compatibility-action-storage-plugin.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com:Praqma/compatibility-action-storage-plugin.git</developerConnection>
+        <developerConnection>scm:git:ssh://git@github.com/Praqma/compatibility-action-storage-plugin.git</developerConnection>
         <url>https://github.com/Praqma/compatibility-action-storage-plugin</url>
     </scm>
 
